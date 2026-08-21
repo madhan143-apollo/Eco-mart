@@ -169,6 +169,11 @@ export const DataProvider = ({ children }) => {
       lng: newProdData.lng || 80.2707,
       images: newProdData.images?.length ? newProdData.images : ["https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&w=600&q=80"],
       condition: newProdData.condition || "Inspected Scrap",
+      aiDetected: Boolean(newProdData.aiDetected),
+      aiConfidence: newProdData.aiConfidence || null,
+      pricePerKg: Number(newProdData.pricePerKg) || null,
+      estimatedWeightKg: Number(newProdData.estimatedWeightKg || newProdData.weightKg),
+      estimatedPrice: Number(newProdData.estimatedPrice || newProdData.price),
       availability: "Immediate",
       co2SavedKg: Math.round(Number(newProdData.weightKg) * 1.5),
       createdAt: new Date().toISOString().split('T')[0]

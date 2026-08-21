@@ -4,10 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
 import Sidebar from '../../components/common/Sidebar';
 import Navbar from '../../components/common/Navbar';
-import AIWasteScanner from '../../components/ai/AIWasteScanner';
-import AISuggestedPrice from '../../components/ai/AISuggestedPrice';
 import { INDIAN_STATES, MAJOR_CITIES_BY_STATE } from '../../data/indianLocations';
-import { Package, PlusCircle, ArrowLeft, Image, MapPin, IndianRupee, Edit3 } from 'lucide-react';
+import { PlusCircle, ArrowLeft, Image, MapPin, Trash2 } from 'lucide-react';
 
 export const AddProductPage = () => {
   const navigate = useNavigate();
@@ -28,11 +26,37 @@ export const AddProductPage = () => {
     imageUrl: 'https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&w=600&q=80'
   });
 
-  const [aiAnalysis, setAiAnalysis] = useState(null);
+  const [imagePreview, setImagePreview] = useState(formData.imageUrl);
+  const [imageError, setImageError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    setImageError('');
+    if (!file) return;
+    if (!['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(file.type)) {
+      setImageError('Please upload a JPG, PNG, or WebP image.');
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      setImageError('Image must be 10 MB or smaller.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePreview(reader.result);
+      setFormData(prev => ({ ...prev, imageUrl: reader.result }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const removeImage = () => {
+    setImagePreview('');
+    setFormData(prev => ({ ...prev, imageUrl: '' }));
   };
 
   const handleStateChange = (e) => {
@@ -42,19 +66,6 @@ export const AddProductPage = () => {
       ...prev,
       state: newState,
       city: cities[0]?.name || ''
-    }));
-  };
-
-  const handleApplyAiResult = (result) => {
-    setAiAnalysis(result);
-    setFormData(prev => ({
-      ...prev,
-      title: result.name,
-      category: result.category,
-      weightKg: result.weight,
-      price: result.recommendedPrice,
-      condition: result.condition,
-      imageUrl: result.image
     }));
   };
 
@@ -94,15 +105,12 @@ export const AddProductPage = () => {
             </span>
           </div>
 
-          {/* AI Waste Scanner Module */}
-          <AIWasteScanner onApplyAiResult={handleApplyAiResult} />
-
           {/* Form */}
           <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-xs space-y-6">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <div>
                 <h3 className="font-extrabold text-lg text-slate-900">Listing Information & Location</h3>
-                <p className="text-xs text-slate-500">Manual edits allowed anytime. AI classifications can be customized.</p>
+                <p className="text-xs text-slate-500">Enter the material details, price, weight, and pickup information manually.</p>
               </div>
             </div>
 
@@ -134,17 +142,6 @@ export const AddProductPage = () => {
                 </select>
               </div>
             </div>
-
-            {/* AI Suggested Price Indicator */}
-            {aiAnalysis && (
-              <AISuggestedPrice
-                suggestedMin={aiAnalysis.suggestedPriceMin}
-                suggestedMax={aiAnalysis.suggestedPriceMax}
-                recommended={aiAnalysis.recommendedPrice}
-                currentPrice={formData.price}
-                onAcceptSuggested={(rec) => setFormData(prev => ({ ...prev, price: rec }))}
-              />
-            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -182,6 +179,29 @@ export const AddProductPage = () => {
                 placeholder="Describe material purity, moisture level, compression state, and pickup accessibility..."
                 className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 outline-hidden"
               />
+            </div>
+
+            <div className="pt-2 border-t border-slate-100 space-y-3">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Product Image</label>
+                <p className="text-xs text-slate-500">Upload a JPG, PNG, or WebP image for your listing.</p>
+              </div>
+              <input
+                id="productImage"
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/webp"
+                onChange={handleImageChange}
+                className="block w-full text-xs text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-3 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-slate-800"
+              />
+              {imageError && <p className="text-xs text-rose-600 font-semibold">{imageError}</p>}
+              {imagePreview && (
+                <div className="relative w-full max-w-sm rounded-xl border border-slate-200 bg-slate-50 p-2">
+                  <img src={imagePreview} alt="Product preview" className="h-40 w-full rounded-lg object-cover" />
+                  <button type="button" onClick={removeImage} className="mt-2 flex items-center gap-1 text-xs font-bold text-rose-600 hover:text-rose-700">
+                    <Trash2 className="w-3.5 h-3.5" /> Remove image
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Pickup Address in India */}

@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+backend/uploads
+ai-service/.venv
+ai-service/__pycache__
+ai-service/model/*.pt
 
 # Editor directories and files
 .vscode/*
