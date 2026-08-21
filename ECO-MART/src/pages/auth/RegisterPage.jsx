@@ -117,17 +117,15 @@ export const RegisterPage = () => {
           </div>
 
           {/* Quick Access Portals Footer Links */}
-          <div className="mt-8 pt-6 border-t border-slate-800/80 flex flex-wrap items-center gap-2 text-xs">
-            <span className="text-slate-400 font-bold uppercase text-[10px]">Portals:</span>
-            <Link to="/seller/login" className="text-emerald-400 hover:underline font-bold">Seller Login</Link>
-            <span className="text-slate-600">•</span>
-            <Link to="/buyer/login" className="text-emerald-400 hover:underline font-bold">Buyer Login</Link>
-            <span className="text-slate-600">•</span>
-            <Link to="/admin/login" className="text-amber-400 hover:underline font-bold">Admin Portal</Link>
-            <span className="text-slate-600">•</span>
-            <Link to="/transport/login" className="text-cyan-400 hover:underline font-bold">Transportation Partner Portal</Link>
-            <span className="text-slate-600">•</span>
-            <Link to="/transport/driver/login" className="text-teal-400 hover:underline font-bold">Driver Login</Link>
+          <div className="mt-8 pt-6 border-t border-slate-800/80">
+            <p className="text-slate-300 font-extrabold uppercase text-xs tracking-widest mb-3">Portal Access</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <Link to="/seller/login" className="flex items-center gap-2.5 rounded-xl border border-emerald-500/30 bg-emerald-950/40 px-3 py-3 text-sm text-emerald-300 font-bold hover:bg-emerald-900/60 transition-colors"><Store className="w-4 h-4" />Seller Login</Link>
+              <Link to="/buyer/login" className="flex items-center gap-2.5 rounded-xl border border-lime-500/30 bg-lime-950/30 px-3 py-3 text-sm text-lime-300 font-bold hover:bg-lime-900/50 transition-colors"><ShoppingBag className="w-4 h-4" />Buyer Login</Link>
+              <Link to="/admin/login" className="flex items-center gap-2.5 rounded-xl border border-amber-500/30 bg-amber-950/30 px-3 py-3 text-sm text-amber-300 font-bold hover:bg-amber-900/50 transition-colors"><ShieldCheck className="w-4 h-4" />Admin Portal</Link>
+              <Link to="/transport/login" className="flex items-center gap-2.5 rounded-xl border border-cyan-500/30 bg-cyan-950/30 px-3 py-3 text-sm text-cyan-300 font-bold hover:bg-cyan-900/50 transition-colors"><Truck className="w-4 h-4" />Transport Partner</Link>
+              <Link to="/transport/driver/login" className="flex items-center gap-2.5 rounded-xl border border-teal-500/30 bg-teal-950/30 px-3 py-3 text-sm text-teal-300 font-bold hover:bg-teal-900/50 transition-colors sm:col-span-2"><User className="w-4 h-4" />Driver Login</Link>
+            </div>
           </div>
         </div>
 
