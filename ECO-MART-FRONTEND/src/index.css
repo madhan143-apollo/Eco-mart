@@ -1,0 +1,116 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@layer base {
+  :root {
+    --primary-green: #10b981;
+    --dark-green: #059669;
+    --lime-accent: #84cc16;
+    --dark-navy: #0f172a;
+    --navy-surface: #1e293b;
+    --bg-light: #f8fafc;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f8fafc;
+    background-image: radial-gradient(rgba(16, 185, 129, 0.04) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    color: #0f172a;
+    overflow-x: hidden;
+  }
+
+  #root {
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+}
+
+/* Light Minimal ECO MART Logo Background Watermark */
+.bg-eco-minimal-watermark {
+  position: relative;
+}
+
+.bg-eco-minimal-watermark::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/ecomart-logo.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 550px;
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 0;
+  filter: grayscale(20%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Leaflet Map customizations */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.75rem;
+  z-index: 10;
+}
+
+.custom-leaflet-popup .leaflet-popup-content-wrapper {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  padding: 4px;
+}
+
+.custom-leaflet-popup .leaflet-popup-tip {
+  background-color: #ffffff;
+}
+
+/* Glassmorphism utils */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+/* Pulse badge animation */
+@keyframes ecoPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.85; }
+}
+
+.animate-eco-pulse {
+  animation: ecoPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
